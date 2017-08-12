@@ -4,8 +4,8 @@ import android.app.Application;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.sj.diary.mode.diary.DaoMaster;
-import com.sj.diary.mode.diary.DaoSession;
+import com.sj.dailyplan.view.mode.diary.DaoMaster;
+import com.sj.dailyplan.view.mode.diary.DaoSession;
 
 /**
  * Created by Administrator on 2017/7/9.
@@ -14,13 +14,14 @@ import com.sj.diary.mode.diary.DaoSession;
 public class MyApplication extends Application {
 
     private static final String TAG = "Application";
+    public static MyApplication INSTANCE;
 
     private DaoSession mSession;
 
     @Override
     public void onCreate() {
         setupDatabase();
-        Log.d(TAG , "onCreate()");
+        INSTANCE = this;
         super.onCreate();
     }
 
