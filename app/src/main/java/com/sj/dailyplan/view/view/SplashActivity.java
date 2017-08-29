@@ -1,4 +1,4 @@
-package com.sj.dailyplan.view;
+package com.sj.dailyplan.view.view;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,7 +8,8 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
 
-import com.sj.diary.R;
+import com.sj.dailyplan.R;
+
 
 /**
  * Created by Administrator on 2017/7/2.

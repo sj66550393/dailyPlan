@@ -1,4 +1,4 @@
-package com.sj.dailyplan.view;
+package com.sj.dailyplan.view.view;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -13,11 +13,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.sj.diary.R;
-import com.sj.diary.view.view.fragment.FindFragment;
-import com.sj.diary.view.view.fragment.HomeFragment;
-import com.sj.diary.view.view.fragment.PersonalFragment;
-import com.sj.diary.view.view.fragment.PhotoFragment;
+import com.sj.dailyplan.R;
+import com.sj.dailyplan.view.view.fragment.FindFragment;
+import com.sj.dailyplan.view.view.fragment.HomeFragment;
+import com.sj.dailyplan.view.view.fragment.PersonalFragment;
+import com.sj.dailyplan.view.view.fragment.PhotoFragment;
+
 
 public class MainActivity extends AppCompatActivity {
 

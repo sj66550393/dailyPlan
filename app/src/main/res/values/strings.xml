@@ -1,3 +1,12 @@
 <resources>
-    <string name="app_name">dailyPlan</string>
+    <string name="app_name">diary</string>
+    <string name="navigation_home">首页</string>
+    <string name="navigation_dashboard">趣闻</string>
+    <string name="navigation_photo">照片</string>
+    <string name="navigation_notifications">我</string>
+    <string name="immediate_experience">立即体验</string>
+    <string name="toolbar_search">搜索</string>
+    <string name="toolbar_add">添加日记</string>
+    <string name="diarydetail_title_hint">请输入标题</string>
+    <string name="diarydetail_content_hint">请输入内容</string>
 </resources>

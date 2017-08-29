@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.sj.diary.view.view.MainActivity">
+    tools:context="com.sj.dailyplan.view.MainActivity">
 
    <FrameLayout
        android:id="@+id/frag_main"

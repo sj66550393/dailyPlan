@@ -1,4 +1,4 @@
-package com.sj.dailyplan.view.fragment;
+package com.sj.dailyplan.view.view.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,7 +9,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toolbar;
 
-import com.sj.diary.R;
+import com.sj.dailyplan.R;
+
 
 /**
  * Created by Administrator on 2017/7/4.

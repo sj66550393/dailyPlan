@@ -1,12 +1,14 @@
-package com.sj.dailyplan.view.fragment;
+package com.sj.dailyplan.view.view.fragment;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,15 +20,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.sj.diary.R;
-import com.sj.diary.base.MyApplication;
-import com.sj.diary.mode.diary.DaoSession;
-import com.sj.diary.mode.diary.Diary;
-import com.sj.diary.mode.diary.DiaryDao;
-import com.sj.diary.view.view.AddDiaryActivity;
+import com.sj.dailyplan.R;
+import com.sj.dailyplan.view.base.MyApplication;
+import com.sj.dailyplan.view.mode.diary.DaoSession;
+import com.sj.dailyplan.view.mode.diary.Diary;
+import com.sj.dailyplan.view.mode.diary.DiaryDao;
+import com.sj.dailyplan.view.utils.DiaryUtils;
+import com.sj.dailyplan.view.view.AddDiaryActivity;
 
 import java.util.List;
 
@@ -44,6 +48,7 @@ public class HomeFragment extends Fragment {
     private DaoSession mDaoSession;
     private DiaryDao mDiaryDao;
     private MyAdapter2 mRecyclerViewAdapter;
+    private List<Diary> mDiaries;
 
     @Nullable
     @Override
@@ -57,20 +62,38 @@ public class HomeFragment extends Fragment {
         mToolBar.setLogo(R.drawable.ic_diary_title);
         setHasOptionsMenu(true);
         mActivity.setSupportActionBar(mToolBar);
-        mRecyclerViewAdapter = new MyAdapter2(mDiaryDao.queryBuilder()
-                .orderDesc(DiaryDao.Properties.CreateDate).list());
+        mDiaries = DiaryUtils.getDiaryList();
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycle_view);
+        mRecyclerViewAdapter = new MyAdapter2(mDiaries);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.addItemDecoration(new ItemDecoration());
         mRecyclerView.setAdapter(mRecyclerViewAdapter);
-        mRecyclerViewAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+        mRecyclerViewAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener(){
             @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Toast.makeText(getActivity(), "点击" , Toast.LENGTH_SHORT);
+                AddDiaryActivity.previewDiary(getActivity() , mDiaries.get(position).getUid());
             }
         });
 
+        mRecyclerViewAdapter.setOnItemLongClickListener(new BaseQuickAdapter.OnItemLongClickListener(){
+
+            @Override
+            public boolean onItemLongClick(BaseQuickAdapter adapter, View view, int position) {
+                Toast.makeText(getActivity(), "点击" , Toast.LENGTH_SHORT);
+                showDeleteDialog(mDiaries.get(position).getUid());
+                return true;
+            }
+        });
         return view;
+    }
+
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        onRefreshData();
+
     }
 
     @Override
@@ -149,8 +172,6 @@ public class HomeFragment extends Fragment {
 
 
     class MyAdapter2 extends BaseQuickAdapter<Diary , BaseViewHolder> {
-
-
         public MyAdapter2(@Nullable List<Diary> data) {
             super(R.layout.item_diary, data);
         }
@@ -170,6 +191,36 @@ public class HomeFragment extends Fragment {
         @Override
         public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
             outRect.set(20,0,20,10);
+        }
+    }
+
+    private void showDeleteDialog(final String uid){
+        final AlertDialog.Builder deleteDialog = new AlertDialog.Builder(getActivity());
+        deleteDialog.setTitle("提示")
+                .setMessage("确定删除吗")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Diary diary = DiaryUtils.getDiaryByUid(uid);
+                        if(!DiaryUtils.delete(diary)){
+                            Toast.makeText(getActivity() , "删除失败", Toast.LENGTH_SHORT).show();
+                        }else{
+                            onRefreshData();
+                            Toast.makeText(getActivity() , "删除成功", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                })
+                .setNegativeButton("取消", null)
+                .create()
+                .show();
+    }
+
+    private void onRefreshData(){
+        mDiaries.clear();
+        mRecyclerViewAdapter.notifyDataSetChanged();
+        if(DiaryUtils.getDiaryList() != null){
+            mDiaries.addAll(DiaryUtils.getDiaryList());
+            mRecyclerViewAdapter.notifyDataSetChanged();
         }
     }
 }
