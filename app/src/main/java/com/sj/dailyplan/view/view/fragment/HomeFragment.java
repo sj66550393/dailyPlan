@@ -3,7 +3,6 @@ package com.sj.dailyplan.view.view.fragment;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -107,8 +106,7 @@ public class HomeFragment extends Fragment {
         Log.d(TAG , "item = " + item.getItemId());
         switch (item.getItemId()){
             case R.id.action_add:
-                Intent intent = new Intent(getActivity() , AddDiaryActivity.class);
-                startActivity(intent);
+                AddDiaryActivity.adddiary(getActivity());
                 break;
         }
         return super.onOptionsItemSelected(item);
