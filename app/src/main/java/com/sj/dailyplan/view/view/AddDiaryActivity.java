@@ -5,9 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.widget.FrameLayout;
 
 
+import com.sj.dailyplan.R;
 import com.sj.dailyplan.view.base.BaseActivity;
+import com.sj.dailyplan.view.view.fragment.addDiaryFragment;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,6 +23,7 @@ import java.util.Date;
 public class AddDiaryActivity extends BaseActivity {
 
     private static final String TAG = "AddDiaryActivity";
+    private Fragment mFragment;
     private static final int ADD_DIARY = 0;
     private static final int PRE_DIARY = 1;
 
@@ -39,16 +44,25 @@ public class AddDiaryActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_adddiary);
+        initContainer();
+
+    }
+
+    private void initContainer(){
         Intent intent = getIntent();
         if(intent.getIntExtra("action" , ADD_DIARY) == ADD_DIARY){
             initAddDiary();
         }else{
             initPreDiary(intent.getStringExtra("uid"));
         }
+        if(mFragment != null){
+            getSupportFragmentManager().beginTransaction().replace(R.id.fr_container , mFragment).commit();
+        }
     }
 
     private void initAddDiary(){
-
+        mFragment = addDiaryFragment.newInstant();
     }
 
     private void initPreDiary(String uid){

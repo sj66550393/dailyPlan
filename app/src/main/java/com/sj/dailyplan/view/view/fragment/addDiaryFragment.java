@@ -20,6 +20,10 @@ public class addDiaryFragment extends Fragment {
     private EditText ed_title;
     private EditText ed_content;
 
+    public static Fragment newInstant(){
+        return new addDiaryFragment();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
